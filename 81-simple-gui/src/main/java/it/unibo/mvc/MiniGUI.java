@@ -54,6 +54,7 @@ public class MiniGUI {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final int res = randomGenerator.nextInt();
+                System.out.println(res);
                 field1.setText("Result: " + res);
             }
         });
