@@ -1,15 +1,11 @@
 package it.unibo.deathnote.impl;
 
-import java.awt.List;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImplementation implements DeathNote{
-
-    public static final String DEFAULT_DEATH_CAUSE = "heart attack";
 
     private Map<String, Death> deaths = new HashMap<>();
         private String latestName;    
@@ -18,8 +14,8 @@ public class DeathNoteImplementation implements DeathNote{
     
         public DeathNoteImplementation(){
             this.deaths = new HashMap<>();
-        this.latestName = "";
-    }
+            this.latestName = "";
+        }
 
     @Override
     public String getRule(final int ruleNumber) {
@@ -76,19 +72,36 @@ public class DeathNoteImplementation implements DeathNote{
     }
 
     private class Death {
+        private static final String DEFAULT_DIED = "heart attack";
+        private static final int TIME_TO_WRITE_CAUSE = 40;
+        private static final int TIME_TO_WRITE_DETAILS = 6040;
 
-        private String cause = DEFAULT_DEATH_CAUSE;
-    
-        private String details = "";
-    
+        private String cause;
+        private String details;
+        private long deathTime;
+
+        public Death(){
+            this.cause = DEFAULT_DIED;
+            this.details = "";
+            this.deathTime = System.currentTimeMillis();
+        }
+
         public boolean setCause(final String cause) {
-          this.cause = cause;
-          return true;
+            if(System.currentTimeMillis() < deathTime + TIME_TO_WRITE_CAUSE){
+                this.cause = cause;
+                return true;
+            } else{
+                return false;
+            }
         }
     
         public boolean setDetails(final String details) {
-          this.details = details;
-          return true;
+            if(System.currentTimeMillis() < deathTime + TIME_TO_WRITE_DETAILS){
+                this.details = details;
+                return true;
+            } else{
+                return false;
+            }
         }
 
         public String getCause(){

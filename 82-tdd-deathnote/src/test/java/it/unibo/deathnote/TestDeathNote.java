@@ -52,7 +52,7 @@ class TestDeathNote {
         assertFalse(deathnote.isNameWritten(PERSON1));
         deathnote.writeName(PERSON1);
         assertTrue(deathnote.isNameWritten(PERSON1));
-        assertTrue(deathnote.isNameWritten(PERSON2));
+        assertFalse(deathnote.isNameWritten(PERSON2));
         assertFalse(deathnote.isNameWritten(""));
     }
 
@@ -77,12 +77,12 @@ class TestDeathNote {
     @Test
     void testDetails() throws InterruptedException{
         deathnote.writeName(PERSON1);
-        assertTrue(deathnote.getDeathDetails(PERSON1).isBlank());
+        assertEquals("", deathnote.getDeathDetails(PERSON1));
         assertTrue(deathnote.writeDetails("ran for too long"));
         assertEquals("ran for too long", deathnote.getDeathDetails(PERSON1));
-        deathnote.writeDetails(PERSON2);
+        deathnote.writeName(PERSON2);
         Thread.sleep(6100);
-        assertFalse(deathnote.writeDetails("he didn't care"));
+        assertFalse(deathnote.writeDetails("Got scared"));
         assertEquals("", deathnote.getDeathDetails(PERSON2));
     }
 }
