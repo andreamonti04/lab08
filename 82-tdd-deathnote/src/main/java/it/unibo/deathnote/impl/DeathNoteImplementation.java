@@ -53,11 +53,6 @@ class DeathNoteImplementation implements DeathNote{
         if (this.latestName == null || cause == null) {
             throw new IllegalStateException("There is no name written in this DeathNote or the cause is null");
         }
-        final long timeElapsed = timer.partial(); // keep the timer running because the details can still be added.
-        if (timeElapsed > MS_TO_WRITE_DEATH_CAUSE) {
-            return false;
-        }
-        deaths.get(latestName).setCause(cause);
         return true;
     }
 
