@@ -7,29 +7,19 @@ import java.util.Map;
 
 import it.unibo.deathnote.api.DeathNote;
 
-class DeathNoteImplementation implements DeathNote{
+public class DeathNoteImplementation implements DeathNote{
 
     public static final String DEFAULT_DEATH_CAUSE = "heart attack";
 
-    private class Death {
-
-        private String cause = DEFAULT_DEATH_CAUSE;
+    private Map<String, Death> deaths = new HashMap<>();
+        private String latestName;    
+        public static final int MS_TO_WRITE_DEATH_CAUSE = 40;
+        public static final int MS_TO_WRITE_DEATH_DETAILS = 6040;
     
-        private String details = "";
-    
-        public void setCause(final String cause) {
-          this.cause = cause;
-        }
-    
-        public void setDetails(final String details) {
-          this.details = details;
-        }
+        public DeathNoteImplementation(){
+            this.deaths = new HashMap<>();
+        this.latestName = "";
     }
-
-    private final Map<String, Death> deaths = new HashMap<>();
-    private String latestName;    
-    public static final int MS_TO_WRITE_DEATH_CAUSE = 40;
-    public static final int MS_TO_WRITE_DEATH_DETAILS = 6040;
 
     @Override
     public String getRule(final int ruleNumber) {
@@ -50,34 +40,63 @@ class DeathNoteImplementation implements DeathNote{
 
     @Override
     public boolean writeDeathCause(String cause) {
-        if (this.latestName == null || cause == null) {
+        if (deaths.isEmpty() || cause == null) {
             throw new IllegalStateException("There is no name written in this DeathNote or the cause is null");
         }
-        return true;
+        return deaths.get(latestName).setCause(cause);
     }
 
     @Override
     public boolean writeDetails(String details) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDetails'");
+        if(deaths.isEmpty() || details == null){
+            throw new IllegalStateException("The details cannot be null or there are no name in deathNote");
+        }
+        return deaths.get(latestName).setDetails(details);
     }
 
     @Override
     public String getDeathCause(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathCause'");
+        if(!deaths.containsKey(name)){
+            throw new IllegalArgumentException("the name is not written in this DeathNote");
+        }
+        return deaths.get(name).getCause();
     }
 
     @Override
     public String getDeathDetails(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathDetails'");
+        if(!deaths.containsKey(name)){
+            throw new IllegalArgumentException("the name is not written in this DeathNote");
+        }
+        return deaths.get(name).getDetails();
     }
 
     @Override
     public boolean isNameWritten(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
+        return deaths.containsKey(name);
     }
 
+    private class Death {
+
+        private String cause = DEFAULT_DEATH_CAUSE;
+    
+        private String details = "";
+    
+        public boolean setCause(final String cause) {
+          this.cause = cause;
+          return true;
+        }
+    
+        public boolean setDetails(final String details) {
+          this.details = details;
+          return true;
+        }
+
+        public String getCause(){
+            return this.cause;
+        }
+
+        public String getDetails(){
+            return this.details;
+        }
+    }
 }
