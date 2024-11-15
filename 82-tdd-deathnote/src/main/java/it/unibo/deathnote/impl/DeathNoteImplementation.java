@@ -8,14 +8,12 @@ import it.unibo.deathnote.api.DeathNote;
 public class DeathNoteImplementation implements DeathNote{
 
     private Map<String, Death> deaths = new HashMap<>();
-        private String latestName;    
-        public static final int MS_TO_WRITE_DEATH_CAUSE = 40;
-        public static final int MS_TO_WRITE_DEATH_DETAILS = 6040;
+    private String latestName;
     
-        public DeathNoteImplementation(){
-            this.deaths = new HashMap<>();
-            this.latestName = "";
-        }
+    public DeathNoteImplementation(){
+        this.deaths = new HashMap<>();
+        this.latestName = "";
+    }
 
     @Override
     public String getRule(final int ruleNumber) {
@@ -75,7 +73,6 @@ public class DeathNoteImplementation implements DeathNote{
         private static final String DEFAULT_DIED = "heart attack";
         private static final int TIME_TO_WRITE_CAUSE = 40;
         private static final int TIME_TO_WRITE_DETAILS = 6040;
-
         private String cause;
         private String details;
         private long deathTime;
